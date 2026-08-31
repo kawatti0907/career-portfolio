@@ -4,6 +4,7 @@ const WORK_GROUPS = [
 ];
 
 function workCardHtml(w, i) {
+  const meta = w.category === "hobby" ? "" : `<p class="work-meta">${w.role} / ${w.period}</p>`;
   return `
     <article class="work-card" data-index="${i}">
       <div class="work-thumb">
@@ -12,7 +13,7 @@ function workCardHtml(w, i) {
       </div>
       <div class="work-body">
         <h3>${w.title}</h3>
-        <p class="work-meta">${w.role} / ${w.period}</p>
+        ${meta}
         <p>${w.description}</p>
         <div class="work-tools">${w.tools.map(t => `<span class="tool-tag">${t}</span>`).join("")}</div>
       </div>
