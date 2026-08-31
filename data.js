@@ -34,6 +34,25 @@ const WORKS = [
     videoUrl: "PLACEHOLDER_VIDEO_URL_4",
     tools: ["Premiere Pro"],
   },
+  // 他チャンネルにアップされたYouTube作品用のスロット。
+  // youtubeId（動画IDのみ、例 "dQw4w9WgXcQ"）を入れると自動でカードが表示される。
+  // null のままなら非表示。必要なだけコピーして増やしてよい。
+  {
+    title: "（後で記入）",
+    role: "（後で記入）",
+    period: "（後で記入）",
+    description: "（後で記入）",
+    youtubeId: null,
+    tools: [],
+  },
+  {
+    title: "（後で記入）",
+    role: "（後で記入）",
+    period: "（後で記入）",
+    description: "（後で記入）",
+    youtubeId: null,
+    tools: [],
+  },
 ];
 
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/UCqZjE17h5h0xXYB8KtWr5fg";

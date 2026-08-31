@@ -1,8 +1,13 @@
 function renderWorks() {
   const grid = document.getElementById("work-grid");
-  grid.innerHTML = WORKS.map((w, i) => `
+  const entries = WORKS
+    .map((w, i) => ({ w, i }))
+    .filter(({ w }) => w.videoUrl || w.youtubeId);
+
+  grid.innerHTML = entries.map(({ w, i }) => `
     <article class="work-card" data-index="${i}">
       <div class="work-thumb">
+        ${w.youtubeId ? `<img class="work-thumb-img" src="https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg" alt="${w.title}">` : ""}
         <span class="play-icon">&#9658;</span>
       </div>
       <div class="work-body">
@@ -15,7 +20,7 @@ function renderWorks() {
   `).join("");
 
   grid.querySelectorAll(".work-card").forEach(card => {
-    card.addEventListener("click", () => openModal(WORKS[card.dataset.index].videoUrl));
+    card.addEventListener("click", () => openModal(WORKS[card.dataset.index]));
   });
 }
 
@@ -54,19 +59,31 @@ function renderSkills() {
   `).join("");
 }
 
-function openModal(videoUrl) {
+function openModal(work) {
   const modal = document.getElementById("video-modal");
   const video = document.getElementById("modal-video");
-  video.src = videoUrl;
+  const yt = document.getElementById("modal-youtube");
+
+  if (work.youtubeId) {
+    video.classList.add("hidden");
+    yt.classList.remove("hidden");
+    yt.src = `https://www.youtube.com/embed/${work.youtubeId}?autoplay=1`;
+  } else {
+    yt.classList.add("hidden");
+    video.classList.remove("hidden");
+    video.src = work.videoUrl;
+    video.play().catch(() => {});
+  }
   modal.classList.add("open");
-  video.play().catch(() => {});
 }
 
 function closeModal() {
   const modal = document.getElementById("video-modal");
   const video = document.getElementById("modal-video");
+  const yt = document.getElementById("modal-youtube");
   video.pause();
   video.src = "";
+  yt.src = "";
   modal.classList.remove("open");
 }
 
