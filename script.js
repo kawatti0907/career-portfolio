@@ -19,6 +19,31 @@ function renderWorks() {
   });
 }
 
+function renderYoutube() {
+  document.getElementById("youtube-channel-link").href = YOUTUBE_CHANNEL_URL;
+
+  const grid = document.getElementById("youtube-grid");
+  grid.innerHTML = YOUTUBE_VIDEOS.map(v => `
+    <article class="youtube-card">
+      <div class="youtube-thumb" data-video-id="${v.videoId}">
+        <img src="https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+        <span class="play-icon">&#9658;</span>
+      </div>
+      <div class="youtube-body">
+        <h3>${v.title}</h3>
+        <a class="youtube-link" href="https://www.youtube.com/watch?v=${v.videoId}" target="_blank" rel="noopener">YouTubeで見る &#8599;</a>
+      </div>
+    </article>
+  `).join("");
+
+  grid.querySelectorAll(".youtube-thumb").forEach(thumb => {
+    thumb.addEventListener("click", () => {
+      const id = thumb.dataset.videoId;
+      thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" title="YouTube video" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    }, { once: true });
+  });
+}
+
 function renderSkills() {
   const container = document.getElementById("skill-groups");
   container.innerHTML = SKILLS.map(s => `
@@ -54,4 +79,5 @@ document.addEventListener("keydown", e => {
 });
 
 renderWorks();
+renderYoutube();
 renderSkills();
