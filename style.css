@@ -18,13 +18,27 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% 0%, rgba(47, 111, 237, 0.12), transparent 45%),
-    radial-gradient(circle at 85% 20%, rgba(120, 190, 255, 0.15), transparent 50%),
-    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  background: var(--bg-bottom);
   color: var(--text);
   font-family: 'Noto Sans JP', sans-serif;
   line-height: 1.7;
+}
+
+/* ページ全体に貼りつく大胆なグラデーション背景。スクロールしても動かず、
+   ガラスパネル（.section-panel・.work-card等）を通して透けて見える。 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(120, 190, 255, 0.55), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(190, 150, 255, 0.5), transparent 45%),
+    radial-gradient(circle at 15% 55%, rgba(255, 170, 210, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 60%, rgba(120, 220, 255, 0.4), transparent 48%),
+    radial-gradient(circle at 45% 95%, rgba(160, 130, 255, 0.4), transparent 50%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  filter: blur(70px);
 }
 
 .hero {
@@ -112,6 +126,20 @@ body {
   font-size: 0.85rem;
   margin-top: 0;
 }
+
+/* About・Skillsを背景から視覚的に切り離すガラスパネル */
+.section-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  box-shadow: 0 20px 50px rgba(47, 111, 237, 0.12);
+  padding: 2.5rem 2rem;
+  margin: 2.5rem auto;
+}
+
+.section-panel:first-of-type { margin-top: 3rem; }
 
 .work-group + .work-group {
   margin-top: 2.5rem;
@@ -214,6 +242,13 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+}
+
+.skill-group {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
 }
 
 .skill-group h3 {
