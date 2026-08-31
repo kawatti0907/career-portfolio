@@ -132,27 +132,6 @@ const WORKS = [
 // 動画URLは kaguyaサーバー + Cloudflare Tunnel のドメインが決まり次第、置換する。
 const SHOWREEL_URL = "PLACEHOLDER_SHOWREEL_URL";
 
-const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/UCqZjE17h5h0xXYB8KtWr5fg";
-
-const YOUTUBE_VIDEOS = [
-  {
-    title: "【FiiO K7】オーディオ沼に足を突っ込んだら世界が変わった話【AFUL Performer 5+2】",
-    videoId: "tPB4_TXkYqY",
-  },
-  {
-    title: "スマートウォッチ、高いのと安いので何が違う？実生活で検証してみた",
-    videoId: "YSXyXtqxX-4",
-  },
-  {
-    title: "【レビュー】自分が引くとは思わなかったぜ...【Bose QuietConfort Ultra Earbuds】",
-    videoId: "K_26W9KV3FM",
-  },
-  {
-    title: "【Osmo】電源オフ中にバッテリーが減りすぎる件について【Action 5 Pro】",
-    videoId: "0Z1S8dEj9bY",
-  },
-];
-
 const SKILLS = [
   {
     group: "ディレクション",
