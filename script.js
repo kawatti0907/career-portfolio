@@ -9,6 +9,7 @@ function workCardHtml(w, i) {
     <article class="work-card" data-index="${i}">
       <div class="work-thumb">
         ${w.youtubeId ? `<img class="work-thumb-img" src="https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg" alt="${w.title}">` : ""}
+        ${w.thumbUrl ? `<img class="work-thumb-img" src="${w.thumbUrl}" alt="${w.title}" loading="lazy">` : ""}
         <span class="play-icon">&#9658;</span>
       </div>
       <div class="work-body">
