@@ -1,10 +1,10 @@
-function renderWorks() {
-  const grid = document.getElementById("work-grid");
-  const entries = WORKS
-    .map((w, i) => ({ w, i }))
-    .filter(({ w }) => w.videoUrl || w.youtubeId);
+const WORK_GROUPS = [
+  { key: "work", label: "仕事" },
+  { key: "hobby", label: "趣味" },
+];
 
-  grid.innerHTML = entries.map(({ w, i }) => `
+function workCardHtml(w, i) {
+  return `
     <article class="work-card" data-index="${i}">
       <div class="work-thumb">
         ${w.youtubeId ? `<img class="work-thumb-img" src="https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg" alt="${w.title}">` : ""}
@@ -17,11 +17,37 @@ function renderWorks() {
         <div class="work-tools">${w.tools.map(t => `<span class="tool-tag">${t}</span>`).join("")}</div>
       </div>
     </article>
-  `).join("");
+  `;
+}
+
+function renderWorks() {
+  const grid = document.getElementById("work-grid");
+  const entries = WORKS
+    .map((w, i) => ({ w, i }))
+    .filter(({ w }) => w.videoUrl || w.youtubeId);
+
+  grid.innerHTML = WORK_GROUPS.map(({ key, label }) => {
+    const groupEntries = entries.filter(({ w }) => (w.category || "work") === key);
+    if (!groupEntries.length) return "";
+    return `
+      <div class="work-group">
+        <h3 class="work-group-label">${label}</h3>
+        <div class="work-subgrid">
+          ${groupEntries.map(({ w, i }) => workCardHtml(w, i)).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
 
   grid.querySelectorAll(".work-card").forEach(card => {
     card.addEventListener("click", () => openModal(WORKS[card.dataset.index]));
   });
+}
+
+function renderShowreel() {
+  if (!SHOWREEL_URL) return;
+  const video = document.getElementById("showreel-video");
+  video.src = SHOWREEL_URL;
 }
 
 function renderYoutube() {
@@ -95,6 +121,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
 
+renderShowreel();
 renderWorks();
 renderYoutube();
 renderSkills();
