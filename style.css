@@ -224,12 +224,12 @@ body::before {
    すべてトークン参照なので、カード内でトークンを上書きすれば連動して暗色に戻る。 */
 .work-card {
   --text: #16283f;
-  --text-muted: #5b7086;
-  --accent: #2f6fed;
-  --accent-soft: rgba(47, 111, 237, 0.12);
+  --text-muted: #3f5064;
+  --accent: #1f57cf;
+  --accent-soft: rgba(47, 111, 237, 0.16);
   --border: rgba(22, 40, 63, 0.1);
   color: var(--text);
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(20px) saturate(1.2);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid rgba(255, 255, 255, 0.7);
