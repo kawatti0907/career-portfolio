@@ -220,21 +220,29 @@ body::before {
   gap: 1.5rem;
 }
 
+/* Projectsのカードだけ白いすりガラスにする。中の文字・タグ・区切り線は
+   すべてトークン参照なので、カード内でトークンを上書きすれば連動して暗色に戻る。 */
 .work-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
+  --text: #16283f;
+  --text-muted: #5b7086;
+  --accent: #2f6fed;
+  --accent-soft: rgba(47, 111, 237, 0.12);
+  --border: rgba(22, 40, 63, 0.1);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 22px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .work-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.9);
 }
 
 .work-thumb {
