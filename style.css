@@ -88,12 +88,14 @@ body::before {
 
 .moon-glow {
   position: absolute;
-  width: min(26vw, 380px);
+  /* 右端から少しはみ出す大きさ。名前（中央 960px 幅）の上に来るのは月の暗い側（透明）だけで、
+     明るい弧は右下に寄るので文字の視認性を邪魔しない */
+  width: min(40vw, 640px);
   aspect-ratio: 1;
-  top: clamp(8px, 2.5vw, 64px);
-  right: clamp(16px, 5vw, 120px);
+  top: clamp(8px, 1vw, 24px);
+  right: clamp(-160px, -10vw, -40px);
   rotate: -12deg;
-  filter: drop-shadow(0 0 28px rgba(150, 190, 255, 0.6)) drop-shadow(0 0 90px rgba(90, 130, 255, 0.45));
+  filter: drop-shadow(0 0 36px rgba(150, 190, 255, 0.55)) drop-shadow(0 0 120px rgba(90, 130, 255, 0.4));
 }
 
 /* 影の円は r46・ずらし(13,-9)。弧の太さ＝49−46＋ずらし距離≈19%で、小さくても三日月と読める */
@@ -109,14 +111,15 @@ body::before {
   mask-size: 100% 100%;
 }
 
-/* 縦画面では名前と重なるので、Heroの上余白を月の分だけ広げて名前の上に収める */
-@media (max-width: 700px) {
+/* 縦画面では名前と重なるので、Heroの上余白を月の分だけ広げて名前の上に収める。
+   横向きスマホ（幅は狭いが縦も短い）にこの余白を効かせないため orientation で絞る */
+@media (max-width: 700px) and (orientation: portrait) {
   .moon-glow {
-    width: 36vw;
-    top: 16px;
-    right: 8vw;
+    width: 70vw;
+    top: 0;
+    right: -16vw;
   }
-  .hero { padding-top: calc(36vw + 3rem); }
+  .hero { padding-top: calc(66vw + 2rem); }
 }
 
 
