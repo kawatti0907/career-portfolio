@@ -78,6 +78,10 @@ body::before {
      0以上にすると位置指定なしのカード類より前に出て本文を覆うので上げないこと。 */
   z-index: -1;
   pointer-events: none;
+  /* 下端を透明へ溶かす。overflow:hidden だけだと月の光が 100vh の位置で
+     水平にスパッと切れ、Hero と About の間に不自然な境界線が出る。 */
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
 }
 
 .moon-glow {
@@ -188,17 +192,19 @@ body::before {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--card-border);
-  border-radius: 28px;
+  border-radius: 20px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  padding: 1.25rem 2rem;
+  padding: 1.4rem 1.75rem 1.5rem;
   margin: 1.25rem auto;
 }
 
 .section-panel:first-of-type { margin-top: 2rem; }
 
-#about.section-panel { padding: 5px 2rem; }
+.section-panel h2 { margin: 0 0 0.6rem; }
 
-#skills.section-panel { padding-top: 5px; }
+.section-panel p { margin: 0 0 0.7rem; }
+
+.section-panel p:last-child { margin-bottom: 0; }
 
 .work-group + .work-group {
   margin-top: 2.5rem;
@@ -307,24 +313,24 @@ body::before {
 .skill-groups {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: 0.9rem;
+  margin-top: 0.9rem;
 }
 
 .skill-group {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 0.15rem 0.9rem 0.6rem;
+  border-radius: 12px;
+  padding: 0.7rem 0.95rem 0.8rem;
 }
 
 .skill-group h3 {
   font-size: 0.95rem;
   color: var(--accent);
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.35rem;
 }
 
-.skill-group ul { margin: 0; padding-left: 1.1rem; color: var(--text-muted); }
+.skill-group ul { margin: 0; padding-left: 1.1rem; color: var(--text-muted); line-height: 1.6; }
 
 .contact-email { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
 
