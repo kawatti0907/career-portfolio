@@ -123,6 +123,186 @@ body::before {
 }
 
 
+/* ---- 月まわりのあしらい（星・光輪・流れ星） ---- */
+
+/* 星は box-shadow の点で描く（要素1つで全部）。3層（1px/2px/3px発光）を別周期で瞬かせる。
+   位置は vw/vh なので画面比が変わっても散り方が保たれる */
+.stars,
+.stars::before,
+.stars::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.stars {
+  box-shadow:
+    81.0vw 54.4vh 0 0 rgba(230, 240, 255, 0.85),
+    81.5vw 85.6vh 0 0 rgba(230, 240, 255, 0.59),
+    53.8vw 81.6vh 0 0 rgba(230, 240, 255, 0.8),
+    44.9vw 42.7vh 0 0 rgba(230, 240, 255, 0.83),
+    71.9vw 74.9vh 0 0 rgba(230, 240, 255, 0.95),
+    20.4vw 56.3vh 0 0 rgba(230, 240, 255, 0.83),
+    17.8vw 85.5vh 0 0 rgba(230, 240, 255, 0.58),
+    98.9vw 82.2vh 0 0 rgba(230, 240, 255, 0.69),
+    38.0vw 42.9vh 0 0 rgba(230, 240, 255, 0.79),
+    69.3vw 29.2vh 0 0 rgba(230, 240, 255, 0.86),
+    24.7vw 76.5vh 0 0 rgba(230, 240, 255, 0.84),
+    36.5vw 4.9vh 0 0 rgba(230, 240, 255, 0.62),
+    57.4vw 55.7vh 0 0 rgba(230, 240, 255, 0.71),
+    67.9vw 20.2vh 0 0 rgba(230, 240, 255, 0.91),
+    4.7vw 20.6vh 0 0 rgba(230, 240, 255, 0.93),
+    60.7vw 8.8vh 0 0 rgba(230, 240, 255, 0.78),
+    56.7vw 23.8vh 0 0 rgba(230, 240, 255, 0.78),
+    50.0vw 16.5vh 0 0 rgba(230, 240, 255, 0.62),
+    29.3vw 13.2vh 0 0 rgba(230, 240, 255, 0.6),
+    80.8vw 8.9vh 0 0 rgba(230, 240, 255, 0.81),
+    30.3vw 66.3vh 0 0 rgba(230, 240, 255, 0.58),
+    27.6vw 43.7vh 0 0 rgba(230, 240, 255, 0.7),
+    70.9vw 41.8vh 0 0 rgba(230, 240, 255, 0.89),
+    46.8vw 22.1vh 0 0 rgba(230, 240, 255, 0.56),
+    58.2vw 2.1vh 0 0 rgba(230, 240, 255, 0.78),
+    48.6vw 36.1vh 0 0 rgba(230, 240, 255, 0.64),
+    1.9vw 22.2vh 0 0 rgba(230, 240, 255, 0.68),
+    37.0vw 12.7vh 0 0 rgba(230, 240, 255, 0.83),
+    13.1vw 19.2vh 0 0 rgba(230, 240, 255, 0.58),
+    52.3vw 85.0vh 0 0 rgba(230, 240, 255, 0.65),
+    58.9vw 77.2vh 0 0 rgba(230, 240, 255, 0.86),
+    33.3vw 62.7vh 0 0 rgba(230, 240, 255, 0.91),
+    52.6vw 58.0vh 0 0 rgba(230, 240, 255, 0.71),
+    79.3vw 42.7vh 0 0 rgba(230, 240, 255, 0.79),
+    13.5vw 59.9vh 0 0 rgba(230, 240, 255, 0.71),
+    47.1vw 62.9vh 0 0 rgba(230, 240, 255, 0.7),
+    13.5vw 3.1vh 0 0 rgba(230, 240, 255, 0.93),
+    28.1vw 24.0vh 0 0 rgba(230, 240, 255, 0.69),
+    21.5vw 48.5vh 0 0 rgba(230, 240, 255, 0.79),
+    69.1vw 34.9vh 0 0 rgba(230, 240, 255, 0.58),
+    38.9vw 64.2vh 0 0 rgba(230, 240, 255, 0.94),
+    32.1vw 30.3vh 0 0 rgba(230, 240, 255, 0.58),
+    37.6vw 78.1vh 0 0 rgba(230, 240, 255, 0.86),
+    56.1vw 54.1vh 0 0 rgba(230, 240, 255, 0.66),
+    34.6vw 59.1vh 0 0 rgba(230, 240, 255, 0.72),
+    59.6vw 87.2vh 0 0 rgba(230, 240, 255, 0.55),
+    6.0vw 42.8vh 0 0 rgba(230, 240, 255, 0.61),
+    5.6vw 64.5vh 0 0 rgba(230, 240, 255, 0.61),
+    85.5vw 20.4vh 0 0 rgba(230, 240, 255, 0.83),
+    86.5vw 86.0vh 0 0 rgba(230, 240, 255, 0.71);
+  animation: twinkle 6s ease-in-out infinite;
+}
+
+.stars::after {
+  content: "";
+  width: 2px;
+  height: 2px;
+  box-shadow:
+    13.5vw 11.2vh 0 0 rgba(230, 240, 255, 0.95),
+    42.4vw 6.6vh 0 0 rgba(230, 240, 255, 0.93),
+    51.8vw 15.4vh 0 0 rgba(230, 240, 255, 0.94),
+    48.0vw 56.9vh 0 0 rgba(230, 240, 255, 0.79),
+    56.2vw 24.0vh 0 0 rgba(230, 240, 255, 0.85),
+    19.0vw 70.5vh 0 0 rgba(230, 240, 255, 0.9),
+    27.1vw 69.2vh 0 0 rgba(230, 240, 255, 0.88),
+    32.6vw 34.0vh 0 0 rgba(230, 240, 255, 0.91),
+    50.1vw 60.2vh 0 0 rgba(230, 240, 255, 0.97),
+    58.6vw 38.1vh 0 0 rgba(230, 240, 255, 0.86),
+    52.8vw 21.0vh 0 0 rgba(230, 240, 255, 0.94),
+    43.1vw 38.6vh 0 0 rgba(230, 240, 255, 0.81),
+    18.4vw 55.1vh 0 0 rgba(230, 240, 255, 0.95),
+    12.1vw 74.2vh 0 0 rgba(230, 240, 255, 0.81),
+    90.9vw 10.8vh 0 0 rgba(230, 240, 255, 0.81),
+    15.8vw 68.7vh 0 0 rgba(230, 240, 255, 0.75),
+    54.3vw 39.0vh 0 0 rgba(230, 240, 255, 0.98),
+    19.9vw 8.8vh 0 0 rgba(230, 240, 255, 0.95),
+    74.8vw 65.0vh 0 0 rgba(230, 240, 255, 0.92),
+    79.1vw 76.6vh 0 0 rgba(230, 240, 255, 0.81),
+    59.2vw 65.7vh 0 0 rgba(230, 240, 255, 0.8),
+    58.6vw 10.9vh 0 0 rgba(230, 240, 255, 0.94);
+  animation: twinkle 4.5s ease-in-out -2s infinite;
+}
+
+.stars::before {
+  content: "";
+  width: 3px;
+  height: 3px;
+  filter: drop-shadow(0 0 4px rgba(200, 220, 255, 0.9));
+  box-shadow:
+    23.2vw 5.9vh 0 0 rgba(230, 240, 255, 0.91),
+    62.0vw 15.6vh 0 0 rgba(230, 240, 255, 0.89),
+    9.2vw 47.2vh 0 0 rgba(230, 240, 255, 0.97),
+    69.4vw 24.6vh 0 0 rgba(230, 240, 255, 0.92),
+    78.7vw 5.4vh 0 0 rgba(230, 240, 255, 0.88),
+    49.5vw 52.0vh 0 0 rgba(230, 240, 255, 0.94),
+    24.2vw 44.4vh 0 0 rgba(230, 240, 255, 0.92);
+  animation: twinkle 3.5s ease-in-out -1s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* 月の外側に細い光輪を2本。月の box と同心で、少し大きい円 */
+.moon-ring,
+.moon-ring::before {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  border: 1px solid rgba(190, 210, 255, 0.22);
+  box-shadow: 0 0 24px rgba(150, 190, 255, 0.12) inset, 0 0 18px rgba(150, 190, 255, 0.1);
+  pointer-events: none;
+}
+
+.moon-ring::before {
+  content: "";
+  inset: -11%;
+  border-color: rgba(190, 210, 255, 0.1);
+  box-shadow: none;
+}
+
+/* 流れ星。左上から右下へ、数秒に一度だけ流れる */
+.shooting-star {
+  position: absolute;
+  /* 名前（中央）に掛からないよう左上の空きだけを流れる */
+  top: 5vh;
+  left: 3vw;
+  width: 140px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+  border-radius: 1px;
+  rotate: 28deg;
+  transform-origin: right center;
+  opacity: 0;
+  animation: shoot 11s linear 3s infinite;
+}
+
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -1.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(200, 220, 255, 0.8);
+}
+
+@keyframes shoot {
+  0% { opacity: 0; translate: 0 0; }
+  2% { opacity: 1; }
+  9% { opacity: 0; translate: 26vw 12vh; }
+  100% { opacity: 0; translate: 26vw 12vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars, .stars::before, .stars::after { animation: none; opacity: 0.8; }
+  .shooting-star { display: none; }
+}
+
 .hero-inner {
   position: relative;
   z-index: 1;
