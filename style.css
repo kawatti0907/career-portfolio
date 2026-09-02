@@ -62,8 +62,10 @@ body::before {
   opacity: 0.75;
 }
 
-/* 最初の1画面の下から昇る三日月。大きい円から少しずらした円を引いたSVGマスクで形を作る。
-   スクロールで流れて消える（fixedにすると下のセクションまで光が乗って字が読めなくなる）。
+/* Hero右上に浮かぶ三日月。大きい円から少しずらした円を引いたSVGマスクで形を作る。
+   以前は画面幅いっぱいの巨大な月を画面下から昇らせていたが、弧の一部しか見えず
+   「三日月」と読めなかったため、全体が入るサイズにして影のずらし幅を広げ（弧を太く）
+   モチーフとして認識できる位置に置き直した。
    発光はマスクの外側（.moon-glow）に置く：マスクは filter より後に適用され、
    内側に置くと光が切り落とされるため。 */
 .moon-layer {
@@ -78,7 +80,7 @@ body::before {
      0以上にすると位置指定なしのカード類より前に出て本文を覆うので上げないこと。 */
   z-index: -1;
   pointer-events: none;
-  /* 下端を透明へ溶かす。overflow:hidden だけだと月の光が 100vh の位置で
+  /* 下端を透明へ溶かす。overflow:hidden だけだと光が 100vh の位置で
      水平にスパッと切れ、Hero と About の間に不自然な境界線が出る。 */
   -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
@@ -86,33 +88,35 @@ body::before {
 
 .moon-glow {
   position: absolute;
-  width: 100vw;
+  width: min(26vw, 380px);
   aspect-ratio: 1;
-  left: 0;
-  bottom: -72vw;
-  rotate: 155deg;
-  filter: drop-shadow(0 0 60px rgba(150, 190, 255, 0.55)) drop-shadow(0 0 170px rgba(90, 130, 255, 0.4));
+  top: clamp(8px, 2.5vw, 64px);
+  right: clamp(16px, 5vw, 120px);
+  rotate: -12deg;
+  filter: drop-shadow(0 0 28px rgba(150, 190, 255, 0.6)) drop-shadow(0 0 90px rgba(90, 130, 255, 0.45));
 }
 
+/* 影の円は r46・ずらし(13,-9)。弧の太さ＝49−46＋ずらし距離≈19%で、小さくても三日月と読める */
 .moon-glow .crescent {
   position: absolute;
   inset: 0;
-  background: linear-gradient(200deg, #ffffff 0%, rgba(214, 231, 255, 0.92) 40%, rgba(150, 180, 255, 0.5) 74%, rgba(120, 150, 255, 0.12) 100%);
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff'/%3E%3Ccircle cx='58' cy='44' r='48.5' fill='%23000'/%3E%3C/mask%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff' mask='url(%23m)'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff'/%3E%3Ccircle cx='58' cy='44' r='48.5' fill='%23000'/%3E%3C/mask%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff' mask='url(%23m)'/%3E%3C/svg%3E");
+  background: linear-gradient(35deg, #ffffff 0%, rgba(214, 231, 255, 0.95) 45%, rgba(150, 180, 255, 0.55) 80%, rgba(120, 150, 255, 0.2) 100%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff'/%3E%3Ccircle cx='63' cy='41' r='46' fill='%23000'/%3E%3C/mask%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff' mask='url(%23m)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cmask id='m'%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff'/%3E%3Ccircle cx='63' cy='41' r='46' fill='%23000'/%3E%3C/mask%3E%3Ccircle cx='50' cy='50' r='49' fill='%23fff' mask='url(%23m)'/%3E%3C/svg%3E");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
 }
 
-/* 縦画面では弧が寝すぎて画面を横切らないので、半径を詰めて立てる */
+/* 縦画面では名前と重なるので、Heroの上余白を月の分だけ広げて名前の上に収める */
 @media (max-width: 700px) {
   .moon-glow {
-    width: 190vw;
-    left: -45vw;
-    bottom: -140vw;
+    width: 36vw;
+    top: 16px;
+    right: 8vw;
   }
+  .hero { padding-top: calc(36vw + 3rem); }
 }
 
 
