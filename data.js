@@ -131,8 +131,8 @@ const WORKS = [
   },
 ];
 
-// 名前の下に大きく表示するショーリール（元ファイル: D:\Dropbox\ポートフォリオ\ShowReel_2026.mp4）。
-const SHOWREEL_URL = "https://videos.kaguya-server.com/showreel.mp4";
+// 名前の下に大きく表示するショーリール（元ファイル: D:\Dropbox\ポートフォリオ\ShowReel_2026_02.mp4）。
+const SHOWREEL_URL = "https://videos.kaguya-server.com/showreel.mp4?v=2";
 
 const SKILLS = [
   {
