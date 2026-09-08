@@ -7,6 +7,15 @@
 <meta name="robots" content="noindex, nofollow">
 <!-- ?v= はキャッシュ避け。GitHub Pages は CSS を10分キャッシュするので、CSSを変えたらここも更新する -->
 <link rel="stylesheet" href="style.css?v=20260902c">
+<style>
+.share-button { padding: .65rem 1rem; border: 1px solid #a4bde0; border-radius: 8px; background: #192c49; color: #fff; font: inherit; font-size: 14px; cursor: pointer; }
+.share-button:focus-visible { outline: 3px solid #bcdcff; outline-offset: 3px; }
+.share-status { display: block; min-height: 1.5em; font-size: 14px; color: #fff; }
+.modal-inner { max-height: calc(100dvh - 5rem); overflow-y: auto; padding: 0.25rem; }
+.modal-inner video, .modal-inner iframe { max-height: 65dvh; }
+.modal-close { position: static; display: block; margin-left: auto; margin-bottom: .5rem; }
+#modal-title { color: white; font-size: 1rem; margin: 0 0 .5rem; }
+</style>
 </head>
 <body>
 
@@ -22,8 +31,10 @@
     <p class="eyebrow">Movie Director</p>
     <h1>Tomoki Kawahara</h1>
     <p class="lead">演出/モーショングラフィックス/カラーグレーディング</p>
-    <div class="showreel-wrap">
-      <video id="showreel-video" class="showreel-video" controls playsinline preload="metadata"></video>
+    <div class="showreel-wrap" id="showreel">
+      <video id="showreel-video" tabindex="-1" class="showreel-video" controls playsinline preload="metadata"></video>
+      <button type="button" class="share-button" id="showreel-copy">Show Reelのリンクをコピー</button>
+      <span class="share-status" id="showreel-status" role="status"></span>
       <p class="showreel-caption">Show Reel — 気になったら下のWorksもチェックしてください ↓</p>
     </div>
   </div>
@@ -59,15 +70,18 @@
   <p>&copy; 2026 Tomoki Kawahara</p>
 </footer>
 
-<div class="modal" id="video-modal">
+<div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-inner">
     <button class="modal-close" id="modal-close" aria-label="閉じる">&times;</button>
-    <video id="modal-video" controls></video>
-    <iframe id="modal-youtube" class="hidden" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    <h2 id="modal-title"></h2>
+    <video id="modal-video" controls playsinline preload="metadata"></video>
+    <iframe title="作品動画" id="modal-youtube" class="hidden" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    <button type="button" class="share-button" id="modal-copy">この動画のリンクをコピー</button>
+    <span class="share-status" id="modal-status" role="status"></span>
   </div>
 </div>
 
 <script src="data.js"></script>
-<script src="script.js?v=20260902c"></script>
+<script src="script.js?v=20260909a"></script>
 </body>
 </html>

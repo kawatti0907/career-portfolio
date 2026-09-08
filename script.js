@@ -6,7 +6,7 @@ const WORK_GROUPS = [
 function workCardHtml(w, i) {
   const meta = w.category === "hobby" ? "" : `<p class="work-meta">${w.role} / ${w.period}</p>`;
   return `
-    <article class="work-card" data-index="${i}">
+    <article class="work-card" data-index="${i}" tabindex="0" role="button" aria-label="${w.title}を開く">
       <div class="work-thumb">
         ${w.youtubeId ? `<img class="work-thumb-img" src="https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg" alt="${w.title}">` : ""}
         ${w.thumbUrl ? `<img class="work-thumb-img" src="${w.thumbUrl}" alt="${w.title}" loading="lazy">` : ""}
@@ -42,7 +42,11 @@ function renderWorks() {
   }).join("");
 
   grid.querySelectorAll(".work-card").forEach(card => {
-    card.addEventListener("click", () => openModal(WORKS[card.dataset.index]));
+    const open = () => openModal(WORKS[card.dataset.index]);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
   });
 }
 
@@ -62,33 +66,115 @@ function renderSkills() {
   `).join("");
 }
 
-function openModal(work) {
-  const modal = document.getElementById("video-modal");
-  const video = document.getElementById("modal-video");
-  const yt = document.getElementById("modal-youtube");
-
-  if (work.youtubeId) {
-    video.classList.add("hidden");
-    yt.classList.remove("hidden");
-    yt.src = `https://www.youtube.com/embed/${work.youtubeId}?autoplay=1`;
-  } else {
-    yt.classList.add("hidden");
-    video.classList.remove("hidden");
-    video.src = work.videoUrl;
-    video.play().catch(() => {});
-  }
-  modal.classList.add("open");
+// Link IDs follow media identity, not array order; cache queries do not affect links.
+function workId(work) {
+  return work.id || (work.youtubeId ? `youtube-${work.youtubeId}` : new URL(work.videoUrl, location.href).pathname.split("/").pop().replace(/\.[^.]+$/, ""));
 }
-
-function closeModal() {
-  const modal = document.getElementById("video-modal");
+function videoLink(id) {
+  const url = new URL(location.href);
+  url.searchParams.set("video", id);
+  url.hash = "";
+  return url;
+}
+function setVideoUrl(id, replace = false) {
+  const url = new URL(location.href);
+  if (id) { url.searchParams.set("video", id); url.hash = ""; }
+  else url.searchParams.delete("video");
+  if (url.href !== location.href) history[replace ? "replaceState" : "pushState"](id && id !== "showreel" && !replace ? { portfolioModal: true } : null, "", url);
+}
+let activeWork = null;
+let returnFocus = null;
+let returningToPage = false;
+function openModal(work, updateUrl = true) {
+  if (!activeWork) returnFocus = document.activeElement;
+  clearModal();
+  document.getElementById("showreel-video").pause();
+  activeWork = work;
   const video = document.getElementById("modal-video");
   const yt = document.getElementById("modal-youtube");
+  document.getElementById("modal-title").textContent = work.title;
+  document.getElementById("modal-status").textContent = "";
+  video.classList.toggle("hidden", !!work.youtubeId);
+  yt.classList.toggle("hidden", !work.youtubeId);
+  if (work.youtubeId) yt.src = `https://www.youtube.com/embed/${work.youtubeId}?autoplay=0`;
+  else { video.poster = work.thumbUrl || ""; video.src = work.videoUrl; }
+  document.getElementById("video-modal").classList.add("open");
+  if (updateUrl) setVideoUrl(workId(work));
+  document.getElementById("modal-close").focus();
+}
+function clearModal() {
+  const video = document.getElementById("modal-video");
   video.pause();
-  video.src = "";
-  yt.src = "";
-  modal.classList.remove("open");
+  video.removeAttribute("src");
+  video.load();
+  const yt = document.getElementById("modal-youtube");
+  const freshFrame = yt.cloneNode(false);
+  freshFrame.removeAttribute("src");
+  yt.replaceWith(freshFrame);
+  document.getElementById("video-modal").querySelectorAll("[data-share-fallback]").forEach(input => input.remove());
+  document.getElementById("video-modal").classList.remove("open");
+  activeWork = null;
 }
+function closeModal() {
+  if (!activeWork) return;
+  clearModal();
+  if (history.state?.portfolioModal) { returningToPage = true; history.back(); }
+  else setVideoUrl(null, true);
+  returnFocus?.focus();
+}
+function restoreVideoFromUrl() {
+  const restorePage = returningToPage;
+  returningToPage = false;
+  const id = new URL(location.href).searchParams.get("video");
+  const wasOpen = !!activeWork;
+  clearModal();
+  if (wasOpen) returnFocus?.focus();
+  const reel = document.getElementById("showreel-video");
+  reel.pause();
+  if (id === "showreel" && SHOWREEL_URL) {
+    if (restorePage) return;
+    reel.scrollIntoView({ block: "center" });
+    reel.focus();
+    return;
+  }
+  const work = WORKS.find(w => (w.videoUrl || w.youtubeId) && workId(w) === id);
+  if (work) openModal(work, false);
+  else if (id) setVideoUrl(null, true);
+}
+async function copyVideoLink(id, statusId) {
+  const link = videoLink(id).href;
+  const status = document.getElementById(statusId);
+  status.parentElement.querySelector(`[data-share-fallback="${statusId}"]`)?.remove();
+  status.textContent = "";
+  try {
+    await navigator.clipboard.writeText(link);
+    status.textContent = "リンクをコピーしました";
+  } catch {
+    status.textContent = "コピーできない場合は、下のURLを選択してコピーしてください。";
+    const input = document.createElement("input");
+    input.type = "text"; input.readOnly = true; input.value = link;
+    input.setAttribute("aria-label", "動画の共有URL");
+    input.style.cssText = "display:block;width:100%;font-size:16px;margin-top:8px";
+    input.dataset.shareFallback = statusId;
+    status.insertAdjacentElement("afterend", input); input.focus(); input.select();
+  }
+}
+document.getElementById("modal-copy").addEventListener("click", () => {
+  if (activeWork) copyVideoLink(workId(activeWork), "modal-status");
+});
+document.getElementById("showreel-copy").addEventListener("click", () => {
+  setVideoUrl("showreel", true);
+  copyVideoLink("showreel", "showreel-status");
+});
+document.getElementById("showreel-video").addEventListener("play", () => setVideoUrl("showreel", true));
+window.addEventListener("popstate", restoreVideoFromUrl);
+document.getElementById("video-modal").addEventListener("keydown", e => {
+  if (e.key !== "Tab") return;
+  const controls = [...e.currentTarget.querySelectorAll("button, video, iframe, input")].filter(el => !el.classList.contains("hidden"));
+  const first = controls[0], last = controls[controls.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 document.getElementById("modal-close").addEventListener("click", closeModal);
 document.getElementById("video-modal").addEventListener("click", e => {
@@ -101,3 +187,5 @@ document.addEventListener("keydown", e => {
 renderShowreel();
 renderWorks();
 renderSkills();
+
+restoreVideoFromUrl();
