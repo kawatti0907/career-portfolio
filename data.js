@@ -1,4 +1,7 @@
-// 動画は kaguyaサーバー（videos.kaguya-server.com、Cloudflare Tunnel経由）から配信。
+// 動画は kaguyaサーバー（videos.kaguya-server.com、Cloudflare Tunnel経由）から配信していたが、
+// 2026-10-27 にトンネルと DNS を閉じたため停止中。videoUrl / thumbUrl / SHOWREEL_URL は null にし、
+// 元 URL は各行のコメントに残してある（再開時は null を元 URL に戻す）。
+// 経緯: 60.decisions/2026-10-27-ポートフォリオ動画のCloudflareトンネルを閉じる.md
 // 詳細: 30.work/career-portfolio.md, 60.decisions/2026-08-31-ポートフォリオ動画配信基盤の技術選定.md
 // category: "work"（仕事） | "hobby"（趣味） で Works欄を分けて表示する。
 const WORKS = [
@@ -8,8 +11,8 @@ const WORKS = [
     role: "ディレクター",
     period: "取材～構成：１か月　撮影：１日　編集：１週間ほど",
     description: "18祭という番組の全国PR用ミニドキュメント。構成～完パケまで自走。画作りのためにDaVinciでのカラーグレーディングなども手がけました。",
-    videoUrl: "https://videos.kaguya-server.com/video-1.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-1-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-1.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-1-thumb.jpg?v=2"
     tools: ["DaVinci Resolve"],
     category: "work",
   },
@@ -18,8 +21,8 @@ const WORKS = [
     role: "編集",
     period: "編集：１週間",
     description: "YouTube番組の編集で参加。前任の担当者から引き継いだプロジェクトの分解/モーションのトレースなどから始めました",
-    videoUrl: "https://videos.kaguya-server.com/video-2.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-2-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-2.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-2-thumb.jpg?v=2"
     tools: ["PremierePro", "AfterEffects", "Figma"],
     category: "work",
   },
@@ -28,8 +31,8 @@ const WORKS = [
     role: "撮影、編集",
     period: "生放送後の１時間",
     description: "Venue101という生放送後にSNSにアップする動画。撮影～アップまでを１時間程度で捌きます。",
-    videoUrl: "https://videos.kaguya-server.com/video-3.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-3-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-3.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-3-thumb.jpg?v=2"
     tools: ["PremierePro", "Photoshop"],
     category: "work",
   },
@@ -38,8 +41,8 @@ const WORKS = [
     role: "撮影、編集",
     period: "１週間",
     description: "ドラマのキャストインタビューで、撮影から担当。内容に合わせて効果的にドラマインサートを使用することを心掛けています。",
-    videoUrl: "https://videos.kaguya-server.com/video-4.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-4-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-4.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-4-thumb.jpg?v=2"
     tools: ["PremierePro", "Photoshop"],
     category: "work",
   },
@@ -48,8 +51,8 @@ const WORKS = [
     role: "編集",
     period: "１週間",
     description: "音声のみのインタビューにインサート・メイキング映像を合わせてキャストインタビューとして完成させた動画。インタビューの画がないので、どういった画をのせてつなぎきるかを工夫しながら取り組みました。",
-    videoUrl: "https://videos.kaguya-server.com/video-5.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-5-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-5.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-5-thumb.jpg?v=2"
     tools: ["PremierePro", "Photoshop"],
     category: "work",
   },
@@ -58,8 +61,8 @@ const WORKS = [
     role: "ディレクター",
     period: "構成１か月、編集１か月",
     description: "これまで100本近く担当してきた「天才てれびくん」のデータ放送を活用したミニコーナー。子どもたちを飽きさせないデータ放送ゲームの工夫から企画のバリエーション出しまで、魂を削って制作してきたコンテンツです。",
-    videoUrl: "https://videos.kaguya-server.com/video-6.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-6-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-6.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-6-thumb.jpg?v=2"
     tools: [],
     category: "work",
   },
@@ -68,8 +71,8 @@ const WORKS = [
     role: "ディレクター",
     period: "構成１か月、編集２週間",
     description: "大河ドラマとのタイアップ番組。中のVTRのリサーチから台本作成、編集まで手がけました。完パケまでほとんどの編集を手掛けています。",
-    videoUrl: "https://videos.kaguya-server.com/video-7.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-7-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-7.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-7-thumb.jpg?v=2"
     tools: ["PremierePro", "AfterEffects", "Photoshop"],
     category: "work",
   },
@@ -78,8 +81,8 @@ const WORKS = [
     role: "ディレクター",
     period: "構成から完パケまで２週間ほど",
     description: "大河ドラマの全国展示会の入り口に設置される主演キャストのインタビュー映像。現場のインタビューから編集まで担当しました。",
-    videoUrl: "https://videos.kaguya-server.com/video-8.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-8-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-8.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-8-thumb.jpg?v=2"
     tools: ["PremierePro", "Photoshop"],
     category: "work",
   },
@@ -87,24 +90,24 @@ const WORKS = [
   {
     title: "友人のライブ映像作成",
     description: "友人のジャズミュージシャンに頼まれて撮影から編集までを担当。これはイントロのティザー的映像ですが、この日のライブ全体の撮影・編集もし、ライブ映像としてのディレクションも担当しました。",
-    videoUrl: "https://videos.kaguya-server.com/video-9.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-9-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-9.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-9-thumb.jpg?v=2"
     tools: ["DaVinciResolve"],
     category: "hobby",
   },
   {
     title: "友人のウェディングムービー",
     description: "友人のウェディングムービーの制作を担当。画コンテの作成から始め、ロケ申請、撮影、編集、式場への納品まで。昔から知っている友人夫婦だからこそ、できるだけ映像の中に夫婦の関係性や歴史を演出として詰め込みました。",
-    videoUrl: "https://videos.kaguya-server.com/video-10.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-10-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-10.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-10-thumb.jpg?v=2"
     tools: ["DaVinciResolve"],
     category: "hobby",
   },
   {
     title: "友人のミニイベント撮影",
     description: "友人が自分のお店で開いたミニパーティーの様子を動画に撮影。お店の公式SNSで使用し、広報的に使えるような映像を目指しました。",
-    videoUrl: "https://videos.kaguya-server.com/video-11.mp4",
-    thumbUrl: "https://videos.kaguya-server.com/video-11-thumb.jpg?v=2",
+    videoUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-11.mp4"
+    thumbUrl: null, // 停止中。元 URL: "https://videos.kaguya-server.com/video-11-thumb.jpg?v=2"
     tools: ["DaVinciResolve"],
     category: "hobby",
   },
@@ -132,7 +135,7 @@ const WORKS = [
 ];
 
 // 名前の下に大きく表示するショーリール（元ファイル: D:\Dropbox\ポートフォリオ\ShowReel_2026_02.mp4）。
-const SHOWREEL_URL = "https://videos.kaguya-server.com/showreel.mp4?v=2";
+const SHOWREEL_URL = null; // 停止中。元 URL: "https://videos.kaguya-server.com/showreel.mp4?v=2"
 
 const SKILLS = [
   {

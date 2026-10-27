@@ -3,14 +3,22 @@ const WORK_GROUPS = [
   { key: "hobby", label: "趣味" },
 ];
 
+function hasVideo(w) {
+  return !!(w.videoUrl || w.youtubeId);
+}
+
 function workCardHtml(w, i) {
   const meta = w.category === "hobby" ? "" : `<p class="work-meta">${w.role} / ${w.period}</p>`;
+  const playable = hasVideo(w);
+  const cardAttrs = playable
+    ? `class="work-card" data-index="${i}" tabindex="0" role="button" aria-label="${w.title}を開く"`
+    : `class="work-card no-video" data-index="${i}"`;
   return `
-    <article class="work-card" data-index="${i}" tabindex="0" role="button" aria-label="${w.title}を開く">
+    <article ${cardAttrs}>
       <div class="work-thumb">
         ${w.youtubeId ? `<img class="work-thumb-img" src="https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg" alt="${w.title}">` : ""}
         ${w.thumbUrl ? `<img class="work-thumb-img" src="${w.thumbUrl}" alt="${w.title}" loading="lazy">` : ""}
-        <span class="play-icon">&#9658;</span>
+        ${playable ? `<span class="play-icon">&#9658;</span>` : ""}
       </div>
       <div class="work-body">
         <h3>${w.title}</h3>
@@ -26,7 +34,8 @@ function renderWorks() {
   const grid = document.getElementById("work-grid");
   const entries = WORKS
     .map((w, i) => ({ w, i }))
-    .filter(({ w }) => w.videoUrl || w.youtubeId);
+    // 動画が止まっていてもカードは残す。youtubeId の枠だけは ID 未記入なら非表示。
+    .filter(({ w }) => !("youtubeId" in w) || w.youtubeId);
 
   grid.innerHTML = WORK_GROUPS.map(({ key, label }) => {
     const groupEntries = entries.filter(({ w }) => (w.category || "work") === key);
@@ -41,7 +50,7 @@ function renderWorks() {
     `;
   }).join("");
 
-  grid.querySelectorAll(".work-card").forEach(card => {
+  grid.querySelectorAll(".work-card:not(.no-video)").forEach(card => {
     const open = () => openModal(WORKS[card.dataset.index]);
     card.addEventListener("click", open);
     card.addEventListener("keydown", e => {
@@ -51,7 +60,10 @@ function renderWorks() {
 }
 
 function renderShowreel() {
-  if (!SHOWREEL_URL) return;
+  if (!SHOWREEL_URL) {
+    document.getElementById("showreel").hidden = true;
+    return;
+  }
   const video = document.getElementById("showreel-video");
   video.src = SHOWREEL_URL;
 }
@@ -137,7 +149,7 @@ function restoreVideoFromUrl() {
     reel.focus();
     return;
   }
-  const work = WORKS.find(w => (w.videoUrl || w.youtubeId) && workId(w) === id);
+  const work = WORKS.find(w => hasVideo(w) && workId(w) === id);
   if (work) openModal(work, false);
   else if (id) setVideoUrl(null, true);
 }
